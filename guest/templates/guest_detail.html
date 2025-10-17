@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block title %} Detalles del huésped {% endblock title %}
+{% block content %}
+<h2 class="titlex">Detalles del huésped</h2>
+  <p><strong>Nombre:</strong> {{ guest.first_name }} {{ guest.last_name }}</p>
+  <p><strong>Correo Electronico:</strong> {{ guest.email }}</p>
+  <p><strong>Numero de contacto:</strong> {{ guest.phone_number }}</p>
+  <p><strong>Dirección:</strong> {{ guest.address }}</p>
+  <p><strong>Numero de Documento:</strong> {{ guest.government_id }}</p>
+  
+  <a class="linkx" href="{% url 'reservation_create' %}?guest_id={{ guest.id }}">Generar Reserva </a> 
+
+  <div style="display:flex; gap:8px; margin-top:12px;">
+    <a class="linkx" href="{% url 'guest_update' guest.pk %}">✏️ Modificar</a>
+    <a class="linkx" href="{% url 'guest_delete' guest.pk %}">🗑️ Eliminar</a>
+    <a class="linkx" href="{% url 'guest_list' %}">⬅ Volver a la lista</a>
+  </div>
+
+    <hr>
+
+  <h3 class="titlex">Historial de Reservas</h3>
+
+  {% if reservations %}
+    <table>
+      <thead>
+        <tr>
+          <th>Reserva</th>
+          <th>Habitación</th>
+          <th>Check-in</th>
+          <th>Check-out</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for res in reservations %}
+          <tr>
+            <td>#{{ res.pk }}</td>
+            <td>{{ res.room }}</td>
+            <td>{{ res.check_in_date }}</td>
+            <td>{{ res.check_out_date }}</td>
+            <td>
+              {% if res.status == 'pending' %}
+                <span style="color:orange; font-weight:bold;">🟠 Pendiente</span>
+              {% elif res.status == 'confirmed' %}
+                <span style="color:green; font-weight:bold;">🟢 Confirmada</span>
+              {% elif res.status == 'cancelled' %}
+                <span style="color:red; font-weight:bold;">🔴 Cancelada</span>
+              {% elif res.status == 'check_in' %}
+                <span style="color:blue; font-weight:bold;">🔵 Check-In</span>
+              {% elif res.status == 'check_out' %}
+                <span style="color:gray; font-weight:bold;">⚪ Check-Out</span>
+              {% else %}
+                {{ res.get_status_display }}
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    {# paginación mínima si la activaste en la vista #}
+    {% if reservations_page_obj and reservations_page_obj.has_other_pages %}
+      <div class="pagination">
+        {% if reservations_page_obj.has_previous %}
+          <a class="linkx" href="?page={{ reservations_page_obj.previous_page_number }}">« anterior</a>
+        {% endif %}
+        <span> Página {{ reservations_page_obj.number }} de {{ reservations_page_obj.paginator.num_pages }} </span>
+        {% if reservations_page_obj.has_next %}
+          <a class="linkx" href="?page={{ reservations_page_obj.next_page_number }}">siguiente »</a>
+        {% endif %}
+      </div>
+    {% endif %}
+
+  {% else %}
+    <p>El huésped no tiene reservas registradas.</p>
+  {% endif %}
+
+  {% endblock content %} 
+

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Sesión cerrada{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+  <form action="{% url 'logout' %}" method="post" style="display:inline;">
+      {% csrf_token %}
+      <button type="submit">Cerrar sesión</button>
+  </form>
+{% else %}
+  <a href="{% url 'login' %}">Iniciar sesión</a>
+{% endif %}
+{% endblock %}

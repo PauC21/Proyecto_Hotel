@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Iniciar Sesión{% endblock title %}
+
+{% block content %}
+
+<h1 class="titlex">Iniciar Sesión</h1>
+<form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    {{ form }}    
+    <input type="submit" value="Continuar">  
+    <input type="hidden" name="next" value="{{ next }}">
+</form>
+
+
+{% endblock %}

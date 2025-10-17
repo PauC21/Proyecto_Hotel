@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}Perfil{% endblock title %}
+{% block content %}
+      <h2 class="titlex">Perfil</h5>
+      <p>Name: {{ user.first_name }} {{ user.last_name }}</p>
+      <p>Email: {{ user.email }}</p>
+<a href="{% url 'profile-update' %}" class="linkx">Actualizar Perfil</a>
+<a href="{% url 'password-update' %}" class="linkx">Cambiar Contraseña</a> 
+{% endblock %}

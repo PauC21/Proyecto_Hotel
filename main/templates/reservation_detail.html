@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Detalles de la reserva{% endblock %}
+
+
+{% block content %}
+  <h2 class="titlex">Detalles de la reserva</h2>
+  <p>Habitación: {{ reservation.room.room_number }}</p>
+  <p>Huesped: {{ reservation.guest.first_name }}</p>
+  <p>Fecha de llegada: {{ reservation.check_in_date }}</p>
+  <p>Fecha de salida: {{ reservation.check_out_date }}</p>
+  <p>Detalles adicionales : {{ reservation.additional|linebreaks }}</p>
+  <a class="linkx" href="{% url 'reservation_update' reservation.id %}">✏️ Actualizar</a>
+  <a class="linkx" href="{% url 'reservation_delete' reservation.pk %}">🗑️ Eliminar</a>
+  {% if reservation.status != 'cancelled' %}
+    <form action="{% url 'reservation_cancel' reservation.pk %}" method="post" style="display:inline;">
+  {% csrf_token %}
+      <button type="submit" class="linkx" onclick="return confirm('¿Confirmas cancelar esta reserva? Esta acción no se puede deshacer.')">❌ Cancelar reserva</button>
+    </form>
+  {% else %}
+      <p style="color:gray;">Reserva cancelada — permanece en el historial.</p>
+  {% endif %}
+  <a class="linkx" href="{% url 'reservation_list' %}">⬅ Volver a la lista</a>
+
+  {% endblock %}

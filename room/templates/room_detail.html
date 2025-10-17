@@ -1,0 +1,65 @@
+<!-- room_detail.html -->
+{% extends 'base.html' %}
+
+{% block title %}Detalles de la habitación{% endblock title %}
+
+{% block content %}
+  <h2 class="titlex">Detalles de la habitación</h2>
+  <p>Número de habitación: {{ room.room_number }}</p>
+  <p>Tipo de habitación: {{ room.room_type }}</p>
+  <p>Precio por noche: $ {{ room.price_per_night }}</p>
+
+  <hr>
+
+  <!-- Botones de acción -->
+  <div style="margin-top: 20px;">
+    <!-- Boton editar -->
+    <a class="linkx" href="{% url 'room_update' room.pk %}" class="btn btn-warning">✏️ Editar</a>
+    <!-- Boton de eliminar -->
+    <form action="{% url 'room_delete' room.pk %}" method="post" style="display:inline;">
+      {% csrf_token %}
+      <button type="submit" class="linkx" onclick="return confirm('¿Estás seguro de eliminar esta habitación?');">🗑️ Eliminar</button>
+    </form>
+    <!-- Boton de mantenimiento -->
+    {% if room.status == 'maintenance' %}
+    <form action="{% url 'toggle_maintenance' room.pk %}" method="post" style="display:inline;">
+    {% csrf_token %}
+      <button type="submit" class="linkx">✅ Marcar como disponible</button>
+    </form>
+      <p style="color:red; font-weight:bold;">La habitación está en mantenimiento.</p>
+    {% else %}
+    <form action="{% url 'toggle_maintenance' room.pk %}" method="post" style="display:inline;">
+    {% csrf_token %}
+      <button type="submit" class="linkx">🛠️ Poner en mantenimiento</button>
+    </form>
+    {% endif %}
+  </div>
+  
+  <h3 class="titlex">Próximas reservas</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Huesped</th>
+        <th>Fecha de llegada</th>
+        <th>Fecha de salida</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for reservation in reservations %}
+        <tr>
+          <td><a href="{% url 'guest_detail' reservation.guest.pk %}">{{ reservation.guest.first_name }} {{ reservation.guest.last_name }}</a></td>
+          <td>{{ reservation.check_in_date }}</td>
+          <td>{{ reservation.check_out_date }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <a class="linkx" href="{% url 'reservation_list'  %}?room_number={{ room.room_number }}">Todas las reservas</a>
+
+  <h3 class="titlex">Estado de la reserva</h3>
+  {% if room.is_booked_now %}
+    <p>La habitación está reservada actualmente.</p>
+  {% else %}
+    <p>La habitación está disponible actualmente.</p>
+  {% endif %}
+{% endblock content %}

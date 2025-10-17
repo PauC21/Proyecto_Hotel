@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}
+  {% if mode == "create" %} Crear huésped {% else %} Editar huésped {% endif %}
+{% endblock %}
+
+{% block content %}
+  <h2>
+    {% if mode == "create" %}Crear huésped{% else %}Editar huésped{% endif %}
+  </h2>
+
+  <form method="post" novalidate>
+    {% csrf_token %}
+
+    <!-- Errores generales -->
+    {% if form.non_field_errors %}
+      <div style="color: red; margin-bottom: 10px;">
+        {{ form.non_field_errors }}
+      </div>
+    {% endif %}
+
+    <!-- Nombre -->
+    <div>
+      <label for="{{ form.first_name.id_for_label }}">Nombres huesped:</label>
+      {{ form.first_name }}
+      {% if form.first_name.errors %}
+        <div style="color: red;">{{ form.first_name.errors }}</div>
+      {% endif %}
+    </div>
+
+    <!-- Apellido -->
+    <div>
+      <label for="{{ form.last_name.id_for_label }}">Apellidos huesped:</label>
+      {{ form.last_name }}
+      {% if form.last_name.errors %}
+        <div style="color: red;">{{ form.last_name.errors }}</div>
+      {% endif %}
+    </div>
+
+    <!-- Documento -->
+    <div>
+      <label for="{{ form.government_id.id_for_label }}">N° de documento:</label>
+      {{ form.government_id }}
+      {% if form.government_id.errors %}
+        <div style="color: red;">{{ form.government_id.errors }}</div>
+      {% endif %}
+    </div>
+
+    <!-- Correo -->
+    <div>
+      <label for="{{ form.email.id_for_label }}">Correo electrónico:</label>
+      {{ form.email }}
+      {% if form.email.errors %}
+        <div style="color: red;">{{ form.email.errors }}</div>
+      {% endif %}
+    </div>
+
+    <!-- Teléfono -->
+    <div>
+      <label for="{{ form.phone_number.id_for_label }}">Numero de Contacto:</label>
+      {{ form.phone_number }}
+      <small style="color: gray;">Número en formato internacional, ej: +573001112233</small>
+      {% if form.phone_number.errors %}
+        <div style="color: red;">{{ form.phone_number.errors }}</div>
+      {% endif %}
+    </div>
+
+    <!-- Dirección -->
+    <div>
+      <label for="{{ form.address.id_for_label }}">Dirección Residencial:</label><br>
+      {{ form.address }}
+      {% if form.address.errors %}
+        <div style="color: red;">{{ form.address.errors }}</div>
+      {% endif %}
+    </div>
+
+    <br>
+
+    <button type="submit" class="linkx">
+      {% if mode == "create" %} Crear huésped {% else %} Guardar cambios {% endif %}
+    </button>
+
+    {% if guest %}
+      <a class="linkx" href="{% url 'guest_detail' guest.pk %}">Cancelar</a>
+    {% else %}
+      <a class="linkx" href="{% url 'guest_list' %}">Cancelar</a>
+    {% endif %}
+  </form>
+{% endblock %}
+

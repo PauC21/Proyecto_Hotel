@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Panel de control{% endblock title %}
+{% block content %}
+  <h2 class="titlex">Bienvenido al Hotel AJP Inn</h2>
+
+  <div class="dashboard">
+    <div class="card">
+        <h2 class="titlex">Habitaciones</h2>
+        <p>{{ total_rooms }}</p>
+    </div>
+
+    <div class="card">
+        <h2 class="titlex">Total Huespedes</h2>
+        <p>{{ total_guests }}</p>
+    </div>
+
+    <div class="card">
+        <h2 class="titlex"> Total Reservaciones </h2>
+        <p>{{ total_reservations }}</p>
+    </div>
+</div>
+
+{% endblock %}

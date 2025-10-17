@@ -1,0 +1,8 @@
+<h2>Eliminar habitación</h2>
+<p>¿Estás seguro de que deseas eliminar la habitación <strong>{{ room.room_number }}</strong>?</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Sí, eliminar</button>
+    <a href="{% url 'room_detail' room.pk %}">Cancelar</a>
+</form>

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista de habitaciones{% endblock title %}
+
+{% block content %}
+  <h2 class="titlex">Lista de habitaciones</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Número de habitación</th>
+        <th>Tipo</th>
+        <th>Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for room in rooms %}
+        <tr>
+          <td>
+            <a class="linky" href="{% url 'room_detail' room.pk %}">
+              {{ room.room_number }}
+            </a>
+          </td>
+          <td>{{ room.room_type }}</td>
+
+          <td>
+            {% if room.is_under_maintenance %}
+              <span style="color:orange; font-weight:bold;">🟡 En mantenimiento</span>
+            {% elif room.is_booked_now %}
+              <span style="color:red; font-weight:bold;">🔴 Reservada</span>
+            {% else %}
+              <span style="color:green; font-weight:bold;">🟢 Disponible</span>
+            {% endif %}
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="3">
+            ¡No se ha encontrado ningún registro! 
+            <a href="{% url 'room_create' %}" class="linky">Añadir habitación</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

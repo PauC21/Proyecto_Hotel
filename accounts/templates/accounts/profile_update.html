@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Actualizar perfil{% endblock %}
+
+{% block content %}
+<div class="containerx">
+  <h2 class="titlex">Actualizar Perfil</h2>
+
+  <form method="post" class="formx">
+    {% csrf_token %}
+    
+    <div class="form-groupx">
+      <label for="{{ form.first_name.id_for_label }}">Nombre</label>
+      {{ form.first_name }}
+      {% for error in form.first_name.errors %}
+        <div class="errorx">{{ error }}</div>
+      {% endfor %}
+    </div>
+
+    <div class="form-groupx">
+      <label for="{{ form.last_name.id_for_label }}">Apellido</label>
+      {{ form.last_name }}
+      {% for error in form.last_name.errors %}
+        <div class="errorx">{{ error }}</div>
+      {% endfor %}
+    </div>
+
+    <div class="form-groupx">
+      <label for="{{ form.email.id_for_label }}">Correo electrónico</label>
+      {{ form.email }}
+      {% for error in form.email.errors %}
+        <div class="errorx">{{ error }}</div>
+      {% endfor %}
+    </div>
+
+    <div class="actionsx">
+      <button type="submit" class="btnx btn-outline">Guardar cambios</button>
+      <a href="{% url 'profile' %}" class="btnx btn-outline">Cancelar</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

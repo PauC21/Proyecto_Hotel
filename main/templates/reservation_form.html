@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock title %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form }}
+    <button class="linkx" type="submit">Guardar reserva</button>
+    <a class="linkx" href="{% url 'reservation_list' %}">Cancelar</a>
+</form>
+{% endblock content %}

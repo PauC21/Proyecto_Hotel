@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista de Huespedes{% endblock title %}
+
+{% block content %}
+  <h2 class="titlex">Lista de Huespedes</h2>
+  <ul class="listx">
+    {% for guest in guests %}
+      <li class="itemx"><a class="linky" href="{% url 'guest_detail' guest.pk %}">{{ guest.id }} | {{ guest.first_name }} {{ guest.last_name }}</a></li>
+    {% empty %}
+    <p>¡No se ha encontrado ningún registro! <a href="{% url 'guest_create' %}" class="linky">Añadir huésped</a></p>
+      {% endfor %}
+  </ul>
+{% endblock content %}

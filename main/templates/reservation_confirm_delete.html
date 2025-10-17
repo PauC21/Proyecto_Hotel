@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Eliminar reserva{% endblock title %}
+
+{% block content %}
+  <h2>Eliminar reserva</h2>
+  <p>¿Seguro que deseas eliminar esta reserva?</p>
+
+    <ul>
+        {% if reservation.room %}<li><strong>Habitación:</strong> {{ reservation.room }}</li>{% endif %}
+        {% if reservation.guest %}<li><strong>Huésped:</strong> {{ reservation.guest }}</li>{% endif %}
+        {% if reservation.check_in_date %}<li><strong>Check-in:</strong> {{ reservation.check_in_date }}</li>{% endif %}
+        {% if reservation.check_out_date %}<li><strong>Check-out:</strong> {{ reservation.check_out_date }}</li>{% endif %}
+    </ul>
+
+  <form method="post" style="display:inline;">
+    {% csrf_token %}
+    <button class="linkx" type="submit">🗑️ Eliminar definitivamente</button>
+  </form>
+
+  <a class="linkx" href="{% url 'reservation_detail' reservation.pk %}" style="margin-left:1rem;">
+    Cancelar
+  </a>
+{% endblock content %}

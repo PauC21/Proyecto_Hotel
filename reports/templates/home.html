@@ -1,0 +1,71 @@
+<!-- reports/home.html -->
+{% extends "base.html" %}
+{% block title %}Reportes{% endblock %}
+
+{% block content %}
+<div class="containerx">
+  <h2 class="titlex">Reportes</h2>
+
+  <form method="get" class="formx" style="display:flex; gap:12px; align-items: end; flex-wrap: wrap;">
+    <div>
+      <label>Desde</label>
+      <input type="date" name="start" value="{{ start|date:'Y-m-d' }}" class="inputx">
+    </div>
+    <div>
+      <label>Hasta</label>
+      <input type="date" name="end" value="{{ end|date:'Y-m-d' }}" class="inputx">
+    </div>
+    <button type="submit" class="btnx btn-outline">Aplicar</button>
+
+    <!-- Exportar -->
+    <a class="btnx btn-outline"
+       href="{% url 'reports-export-pdf' %}?start={{ start|date:'Y-m-d' }}&end={{ end|date:'Y-m-d' }}">
+      Exportar PDF
+    </a>
+    <a class="btnx btn-outline"
+       href="{% url 'reports-export-excel' %}?start={{ start|date:'Y-m-d' }}&end={{ end|date:'Y-m-d' }}">
+      Exportar Excel
+    </a>
+  </form>
+
+  <div style="margin:16px 0;">
+    <strong>Resumen:</strong>
+    <span>Habitaciones: {{ rooms_count }}</span> ·
+    <span>Huéspedes: {{ guests_count }}</span> ·
+    <span>Reservas en rango: {{ reservations_count }}</span>
+  </div>
+
+  <div class="cardx">
+    <h3>Muestra de reservas</h3>
+    <table class="tablex">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Huésped</th>
+          <th>Habitación</th>
+          <th>Check-in</th>
+          <th>Check-out</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in sample %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>
+            {% if r.guest.name %}{{ r.guest.name }}
+            {% else %}{{ r.guest.first_name }} {{ r.guest.last_name }}{% endif %}
+          </td>
+          <td>{% if r.room %}{% if r.room.name %}{{ r.room.name }}{% else %}{{ r.room.room_number }}{% endif %}{% else %}-{% endif %}</td>
+          <td>{{ r.check_in_date|date:"Y-m-d" }}</td>
+          <td>{{ r.check_out_date|date:"Y-m-d" }}</td>
+          <td>{{ r.get_status_display }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="6">No hay datos en el rango.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,111 @@
+{% comment %} base.html {% endcomment %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock title %} | Gestión hotelera</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Hotel AJP Inn</h1>
+    </header>
+
+    <nav>
+        <ul>
+            
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'dashboard' %}">Panel de control</a></li>
+                <li><a href="{% url 'reports-home' %}">Reportes</a></li>
+                <li><a href="{% url 'room_list' %}">Lista de habitaciones</a></li>
+                <li><a href="{% url 'guest_list' %}">Lista de huéspedes</a></li>
+                <li><a href="{% url 'reservation_list' %}">Lista de reservas</a></li>
+                <li><a href="{% url 'room_create' %}">Crear habitación</a></li>
+                <li><a href="{% url 'guest_create' %}">Crear huésped</a></li>
+                <li><a href="{% url 'reservation_create' %}">Crear reservación</a></li>
+                <li><a href="{% url 'profile' %}">Perfil</a></li>
+
+                <!-- 🔹 Logout como un link normal -->
+                <li>
+                    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        Cerrar sesión
+                    </a>
+                </li>
+                <!-- 🔹 Form oculto que hace el POST -->
+                <form id="logout-form" action="{% url 'logout' %}" method="post" style="display:none;">
+                    {% csrf_token %}
+                </form>
+            {% else %}
+                <li><a href="{% url 'login' %}">Iniciar sesión</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <main>
+        {% if messages %}
+            <div style="max-width:640px; margin:12px auto;">
+                {% for message in messages %}
+                    <div style="padding:10px 12px; border-radius:12px; margin-bottom:10px;
+                            {% if message.tags == 'success' %}
+                                background:#ecfdf5; border:1px solid #a7f3d0; color:#065f46;
+                            {% elif message.tags == 'error' %}
+                                background:#fee2e2; border:1px solid #fecaca; color:#7f1d1d;
+                            {% else %}
+                                background:#e0f2fe; border:1px solid #bae6fd; color:#075985;
+                            {% endif %}">
+                    {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% block content %}
+        {% endblock %}
+        
+        {% block pagination %}
+            {% if is_paginated %}
+                <ul class="pagination">
+
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ request.path }}?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="{{ request.path }}?page={{ page_obj.previous_page_number }}">
+                                {{ page_obj.previous_page_number }}
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    <li class="page-item">
+                        <a class="page-link active" href="#">
+                            {{ page_obj.number }}
+                        </a>
+                    </li>
+
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ request.path }}?page={{ page_obj.next_page_number }}">
+                                {{ page_obj.next_page_number }}
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="{{ request.path }}?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    {% endif %}
+
+                </ul>
+            {% endif %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        &#169; created by <a class="linky" href="{% url 'modd' %}">MODD</a>
+    </footer>
+</body>
+</html>

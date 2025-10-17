@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Eliminar huésped{% endblock %}
+
+{% block content %}
+  <h1>Eliminar huésped</h1>
+  <p>¿Deseas eliminar a <strong>{{ guest.first_name }} {{ guest.last_name }}</strong>?</p>
+
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="linkx">Sí, eliminar</button>
+    <a class="linkx" href="{% url 'guest_detail' guest.pk %}">Cancelar</a>
+  </form>
+{% endblock %}
