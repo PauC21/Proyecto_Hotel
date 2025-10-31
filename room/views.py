@@ -29,9 +29,11 @@ class RoomDetailView(LoginRequiredMixin, View):
     def get(self, request, pk):
         room = get_object_or_404(Room, pk=pk)
         current_datetime = timezone.now()
-        reservations = room.reservation_set.filter(check_in_date__gte=current_datetime.date()).order_by('check_in_date')
+        today = current_datetime.date()
+        reservations = room.reservation_set.exclude(status='cancelled') \
+            .filter(check_out_date__gte=today) \
+            .order_by('check_in_date')        
         return render(request, 'room_detail.html', {'room': room, 'reservations': reservations,})
-    
 
 #opcion "modificar" habitación
 def room_update(request, pk):

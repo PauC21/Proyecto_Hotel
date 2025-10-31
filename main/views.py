@@ -66,24 +66,28 @@ class ReservationCreateView(LoginRequiredMixin, CreateView):
             form.add_error('room', 'Esta habitación está en mantenimiento y no se puede reservar.')
             return self.form_invalid(form)
 
-        # 2) validación de solapamiento de reservas
-        existing_reservations = Reservation.objects.filter(
-        room=room,
-        check_in_date__lt=check_out_date,
-        check_out_date__gt=check_in_date
-        ).exclude(status='cancelled')
+        # 2️⃣ Validar solapamientos (incluso si las fechas son iguales o se tocan)
+        overlapping_reservations = Reservation.objects.filter(
+            room=room
+        ).exclude(status='cancelled').filter(
+            check_in_date__lte=check_out_date,
+            check_out_date__gte=check_in_date
+        )
 
-        if existing_reservations.exists():
-            form.add_error('room', 'This room is already booked for the selected dates.')
+        if overlapping_reservations.exists():
+            form.add_error('room', 'Esta habitación ya está reservada o no disponible en esas fechas.')
             return self.form_invalid(form)
 
-        # 3) guardar la reserva (CreateView ya la guarda en super().form_valid)
+        # 3️⃣ Guardar reserva
         response = super().form_valid(form)
 
-        # 4) mensaje al usuario
-        messages.success(self.request, "La reserva fue creada y se notificó al cliente.")
+        # 4️⃣ Marcar habitación como ocupada (solo si aplica)
+        if hasattr(room, 'status'):
+            room.status = 'occupied'
+            room.save()
 
-        # 5) devolver la respuesta ya generada por super()
+        # 5️⃣ Mensaje de confirmación
+        messages.success(self.request, "La reserva fue creada exitosamente.")
         return response
 
 class ReservationUpdateView(LoginRequiredMixin, UpdateView):
