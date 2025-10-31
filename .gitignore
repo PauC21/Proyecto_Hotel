@@ -8,6 +8,8 @@ __pycache__/
 
 # Media files
 media/
+hotelmanagement/settings.py
+
 
 # Database files
 db.sqlite3
