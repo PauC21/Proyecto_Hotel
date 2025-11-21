@@ -16,8 +16,8 @@ import time
 BASE_URL = "http://127.0.0.1:8000"
 LOGIN_PATH = "/accounts/login/"
 PW_CHANGE_PATH = "/accounts/password_change/"
-USERNAME = "palis"  # Cambiar por el usuario que existe en tu BD
-OLD_PASSWORD = "Proyecto2025++"
+USERNAME = "prueba"  # Cambiar por el usuario que existe en tu BD
+OLD_PASSWORD = "ejemplo123+"
 
 def setup_driver():
     options = Options()
@@ -244,6 +244,9 @@ def main():
         import traceback
         traceback.print_exc()
     finally:
+        if test_passed:
+            driver.save_screenshot("test_exitoso.png")
+            print("📸 Screenshot de éxito guardado como test_exitoso.png")
         driver.quit()
         return test_passed
 

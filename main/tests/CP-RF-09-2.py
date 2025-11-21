@@ -149,6 +149,8 @@ def test_consultar_estado_habitacion():
         # 5. Verificar que se puede acceder a la información
         if habitaciones_encontradas:
             print("✅ HABITACIONES ENCONTRADAS: La página muestra información de habitaciones")
+            driver.save_screenshot("CP-RF-09-2.png")
+
         else:
             # Mostrar contenido de la página para debug
             page_text = driver.find_element(By.TAG_NAME, "body").text

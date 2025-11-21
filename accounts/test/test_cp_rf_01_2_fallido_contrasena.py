@@ -21,7 +21,7 @@ class CPRF01_2_LoginIncorrecto(TestCase):
 
         # Ingresar usuario y contraseña incorrecta
         driver.find_element(By.NAME, "username").send_keys("palis")
-        driver.find_element(By.NAME, "password").send_keys("Proyecto2025++")
+        driver.find_element(By.NAME, "password").send_keys("Proyecto2025+")
 
         # Clic en el botón del formulario
         driver.find_element(By.XPATH, "/html/body/main/form/input[2]").click()

@@ -154,6 +154,8 @@ def test_proximas_reservas():
         # 5. Verificar contenido de reservas
         if reservas_encontradas:
             print("✅ RESERVAS ENCONTRADAS: La página muestra información de reservas")
+            driver.save_screenshot("reservas_rf09.png")
+
             
             # Mostrar contenido de la página para debug
             page_text = driver.find_element(By.TAG_NAME, "body").text

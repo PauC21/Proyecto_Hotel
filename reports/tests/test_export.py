@@ -8,7 +8,7 @@ class ExportReportTests(TestCase):
 
     def setUp(self):
         # Crear usuario autorizado
-        self.user = User.objects.create_user(username='admin', password='admin123')
+        self.user = User.objects.create_user(username='prueba', password='ejemplo123+')
         self.client = Client()
         self.client.login(username='admin', password='admin123')
 

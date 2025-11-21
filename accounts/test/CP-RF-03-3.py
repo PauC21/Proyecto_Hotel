@@ -16,8 +16,8 @@ import time
 BASE_URL = "http://127.0.0.1:8000"
 LOGIN_PATH = "/accounts/login/"
 PW_CHANGE_PATH = "/accounts/password_change/"
-USERNAME = "palis"        # En lugar de "testuser"
-OLD_PASSWORD = "Proyecto2025++"
+USERNAME = "prueba"        # En lugar de "testuser"
+OLD_PASSWORD = "ejemplo123+"
 
 def setup_driver():
     options = Options()
@@ -130,6 +130,7 @@ def main():
         
         if any(indicator in page_text for indicator in weak_password_indicators):
             print("✅ PASÓ: Se detectó mensaje de contraseña débil")
+            driver.save_screenshot("CP-RF-03-3_error_detectado.png")
             test_passed = True
         else:
             # Verificar mensaje de error genérico

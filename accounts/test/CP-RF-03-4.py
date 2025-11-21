@@ -16,8 +16,8 @@ import time
 BASE_URL = "http://127.0.0.1:8000"
 LOGIN_PATH = "/accounts/login/"
 PW_CHANGE_PATH = "/accounts/password_change/"
-USERNAME = "palis"        # En lugar de "testuser"
-OLD_PASSWORD = "Proyecto2025++"
+USERNAME = "prueba"        # En lugar de "testuser"
+OLD_PASSWORD = "ejemplo123+"
 
 def setup_driver():
     options = Options()
@@ -129,15 +129,19 @@ def main():
         
         if any(indicator in page_text for indicator in same_password_indicators):
             print("✅ PASÓ: Se detectó mensaje de contraseña idéntica")
+            driver.save_screenshot("CP-RF-03-4_error_detectado.png")
             test_passed = True
         else:
             # Verificar mensaje de error genérico
             error_indicators = ["error", "incorrect", "invalid"]
             if any(indicator in page_text for indicator in error_indicators):
                 print("✅ PASÓ: Se detectó mensaje de error (posiblemente por contraseña idéntica)")
+                driver.save_screenshot("CP-RF-03-4_error_detectado.png")
                 test_passed = True
             else:
                 print("❌ FALLÓ: No se detectó mensaje de contraseña idéntica")
+                driver.save_screenshot("CP-RF-03-2_error__no_detectado.png")
+
         
         # 4. Verificar que la contraseña original sigue funcionando
         logout(driver)

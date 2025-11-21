@@ -12,7 +12,7 @@ class CPRF02_1_PerfilValido(TestCase):
     """CP-RF-02-1: Actualizar perfil con datos válidos"""
 
     def setUp(self):
-        self.user = User.objects.create_user(username="palis", password="Proyecto2025++", email="paulaa-cuellarr@unilibre.edu.co")
+        self.user = User.objects.create_user(username="prueba", password="ejemplo123+", email="prueba@gmail.com")
 
     def test_funcional_actualizar_perfil_valido(self):
         service = Service(ChromeDriverManager().install())
@@ -20,8 +20,8 @@ class CPRF02_1_PerfilValido(TestCase):
         driver.get("http://127.0.0.1:8000/accounts/login/")
 
         # Login
-        driver.find_element(By.NAME, "username").send_keys("palis")
-        driver.find_element(By.NAME, "password").send_keys("Proyecto2025++")
+        driver.find_element(By.NAME, "username").send_keys("prueba")
+        driver.find_element(By.NAME, "password").send_keys("ejemplo123+")
         driver.find_element(By.XPATH, "/html/body/main/form/input[2]").click()
         time.sleep(2)
 

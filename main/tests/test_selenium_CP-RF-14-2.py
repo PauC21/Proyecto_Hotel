@@ -16,8 +16,8 @@ USERNAME = "palis"
 PASSWORD = "Proyecto2025++"
 
 # Mismas fechas y habitación para forzar conflicto
-CHECKIN = "2025-10-22"
-CHECKOUT = "2025-10-24"
+CHECKIN = "2025-11-22"
+CHECKOUT = "2025-11-24"
 GUEST_ID = "6"
 ROOM_ID = "16"
 

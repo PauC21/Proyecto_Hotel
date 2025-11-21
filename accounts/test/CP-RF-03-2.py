@@ -16,8 +16,8 @@ import time
 BASE_URL = "http://127.0.0.1:8000"
 LOGIN_PATH = "/accounts/login/"
 PW_CHANGE_PATH = "/accounts/password_change/"
-USERNAME = "palis"        # En lugar de "testuser"
-OLD_PASSWORD = "Proyecto2025++"
+USERNAME = "prueba"        # En lugar de "testuser"
+OLD_PASSWORD = "ejemplo123+"
 
 def setup_driver():
     options = Options()
@@ -131,8 +131,12 @@ def main():
         # 3. Verificar mensaje de error
         if check_error_message(driver):
             print("✅ PASÓ: Se detectó mensaje de error apropiado")
+            driver.save_screenshot("CP-RF-03-2_error_detectado.png")
+            print("📸 Screenshot guardado como CP-RF-03-2_error_detectado.png")
         else:
             print("⚠️ AVISO: No se detectó mensaje de error claro")
+            driver.save_screenshot("CP-RF-03-2_sin_error.png")
+            print("📸 Screenshot guardado como CP-RF-03-2_sin_error.png")
         
         # 4. Verificar que la contraseña original sigue funcionando
         logout(driver)

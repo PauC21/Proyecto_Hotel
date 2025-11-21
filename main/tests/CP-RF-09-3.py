@@ -125,6 +125,8 @@ def test_actualizacion_estado_habitacion():
         final_url = driver.current_url
         if "rooms" in final_url or "reservations" in final_url:
             print("✅ NAVEGACIÓN EXITOSA: Las páginas cargan correctamente")
+            driver.save_screenshot("CP-RF-09-3-OK.png")
+
         else:
             print("⚠️ NAVEGACIÓN: Redirigido a página diferente")
         
